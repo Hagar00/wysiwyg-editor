@@ -1,54 +1,127 @@
-# React + TypeScript + Vite
+# WYSIWYG Editor Component
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A flexible and reusable WYSIWYG editor component built with React and Draft.js. This component supports both controlled and uncontrolled modes, customizable styling, and a basic formatting toolbar.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- ✨ Controlled and uncontrolled modes
+- 🎨 Customizable styling through className and style props
+- 🛠️ Basic formatting toolbar (bold, italic, underline)
+- 🔄 Customizable toolbar through renderToolbar prop
+- 📝 Placeholder text support
+- 🧪 Comprehensive test coverage
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Usage
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+### Basic Usage
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    "react-x": reactX,
-    "react-dom": reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs["recommended-typescript"].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
+```tsx
+import { WysiwygEditor } from "./components/WysiwygEditor";
+
+function App() {
+  return <WysiwygEditor placeholder="Start typing..." />;
+}
 ```
+
+### Controlled Mode
+
+```tsx
+import { useState } from "react";
+import { EditorState } from "draft-js";
+import { WysiwygEditor } from "./components/WysiwygEditor";
+
+function App() {
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
+  return <WysiwygEditor value={editorState} onChange={setEditorState} />;
+}
+```
+
+### Custom Toolbar
+
+```tsx
+import { WysiwygEditor } from "./components/WysiwygEditor";
+import { ToolbarProps } from "./types/editor";
+
+function CustomToolbar({ editorState, onToggleInlineStyle }: ToolbarProps) {
+  return (
+    <div className="custom-toolbar">
+      {/* Your custom toolbar implementation */}
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <WysiwygEditor renderToolbar={(props) => <CustomToolbar {...props} />} />
+  );
+}
+```
+
+## Props
+
+| Prop          | Type                               | Required | Description                           |
+| ------------- | ---------------------------------- | -------- | ------------------------------------- |
+| value         | EditorState                        | No       | The editor state for controlled mode  |
+| onChange      | (editorState: EditorState) => void | No       | Callback when editor content changes  |
+| className     | string                             | No       | Additional CSS class name             |
+| style         | React.CSSProperties                | No       | Additional inline styles              |
+| renderToolbar | (props: ToolbarProps) => ReactNode | No       | Custom toolbar render function        |
+| placeholder   | string                             | No       | Placeholder text when editor is empty |
+
+## Development
+
+### Running the Development Server
+
+```bash
+npm run dev
+```
+
+### Running Tests
+
+```bash
+npm test
+```
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+## Project Structure
+
+```
+src/
+  ├── components/
+  │   ├── WysiwygEditor.tsx
+  │   ├── Toolbar.tsx
+  │   └── __tests__/
+  │       └── WysiwygEditor.test.tsx
+  ├── services/
+  │   └── editorService.ts
+  ├── styles/
+  │   ├── WysiwygEditor.css
+  │   └── Toolbar.css
+  ├── types/
+  │   └── editor.ts
+  └── App.tsx
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

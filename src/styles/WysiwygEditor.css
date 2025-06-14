@@ -1,0 +1,27 @@
+.wysiwyg-editor {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+
+.editor-container {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.editor-container .DraftEditor-root {
+  height: 100%;
+}
+
+.editor-container .DraftEditor-editorContainer {
+  height: 100%;
+}
+
+.editor-container .public-DraftEditor-content {
+  min-height: 100px;
+  padding: 8px;
+}
