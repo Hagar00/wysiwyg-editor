@@ -44,6 +44,7 @@ const Toolbar = ({
         {BLOCK_TYPES.map((type) => (
           <span
             key={type.label}
+            title={type.label}
             className={
               "toolbar-btn" + (type.style === blockType ? " active" : "")
             }
@@ -58,6 +59,7 @@ const Toolbar = ({
         {INLINE_STYLES.map((type) => (
           <span
             key={type.label}
+            title={type.label}
             className={
               "toolbar-btn" + (currentStyle.has(type.style) ? " active" : "")
             }
