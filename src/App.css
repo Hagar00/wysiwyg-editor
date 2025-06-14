@@ -55,7 +55,7 @@ h1 {
 
 .demo-section {
   margin-bottom: 3rem;
-  padding: 1.5rem;
+  /* padding: 1.5rem; */
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   background-color: #fafafa;
