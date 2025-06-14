@@ -59,9 +59,17 @@
   padding: 16px;
   background: #fafbfc;
   border-radius: 0 0 6px 6px;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
 }
 
 .public-DraftEditor-content {
   min-height: 80px;
   font-size: 1.1rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 }

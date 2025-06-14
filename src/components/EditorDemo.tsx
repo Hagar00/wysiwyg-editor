@@ -97,7 +97,7 @@ const EditorDemo: React.FC = () => {
                 className="cancel-button"
                 disabled={isSavingControlled}
               >
-                Cancel
+                clear
               </button>
             </div>
           </section>
