@@ -6,6 +6,7 @@ const Footer: React.FC = () => {
     <footer className="footer">
       <p>
         &copy; {new Date().getFullYear()} WYSIWYG Editor. All rights reserved.
+        by Hagar Hassan
       </p>
     </footer>
   );

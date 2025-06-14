@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { EditorState, Editor } from "draft-js";
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import { EditorState, Editor, RichUtils } from "draft-js";
 import { WysiwygEditorProps } from "../types/editor";
 import { editorService } from "../services/editorService";
 import Toolbar from "./Toolbar";
@@ -17,6 +17,7 @@ const WysiwygEditor: React.FC<WysiwygEditorProps> = ({
   const [editorState, setEditorState] = useState<EditorState>(
     value || editorService.createEmptyEditorState()
   );
+  const editorRef = useRef<Editor>(null);
 
   useEffect(() => {
     if (value) {
@@ -32,19 +33,22 @@ const WysiwygEditor: React.FC<WysiwygEditorProps> = ({
     [onChange]
   );
 
-  const handleToggleInlineStyle = useCallback(
-    (style: string) => {
-      const newEditorState = editorService.toggleInlineStyle(
-        editorState,
-        style
-      );
-      handleEditorChange(newEditorState);
-    },
-    [editorState, handleEditorChange]
-  );
+  const handleToggleBlockType = (blockType: string) => {
+    const newEditorState = RichUtils.toggleBlockType(editorState, blockType);
+    handleEditorChange(newEditorState);
+  };
+
+  const handleToggleInlineStyle = (inlineStyle: string) => {
+    const newEditorState = RichUtils.toggleInlineStyle(
+      editorState,
+      inlineStyle
+    );
+    handleEditorChange(newEditorState);
+  };
 
   const toolbarProps = {
     editorState,
+    onToggleBlockType: handleToggleBlockType,
     onToggleInlineStyle: handleToggleInlineStyle,
   };
 
@@ -55,9 +59,13 @@ const WysiwygEditor: React.FC<WysiwygEditorProps> = ({
       ) : (
         <Toolbar {...toolbarProps} />
       )}
-      <div className="editor-container">
-        {/* @ts-expect-error - Known issue with draft-js types */}
+      <div
+        className="editor-container"
+        onClick={() => editorRef.current?.focus()}
+      >
+        {/* @ts-expect-error: Known issue with draft-js Editor type in JSX */}
         <Editor
+          ref={editorRef}
           editorState={editorState}
           onChange={handleEditorChange}
           placeholder={placeholder}

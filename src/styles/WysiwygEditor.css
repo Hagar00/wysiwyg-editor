@@ -1,27 +1,67 @@
 .wysiwyg-editor {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: #fff;
+  padding: 0;
+  margin: 0;
+}
+
+.toolbar {
+  padding: 12px 16px 0 16px;
+  border-bottom: 1px solid #eee;
+  background: #fff;
+  overflow-x: auto;
+}
+
+.toolbar-row {
   display: flex;
-  flex-direction: column;
-  min-height: 200px;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.toolbar-btn {
+  font-size: 1rem;
+  color: #444;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 3px;
+  transition:
+    background 0.15s,
+    color 0.15s;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.toolbar-btn.active,
+.toolbar-btn:hover {
+  color: #1976d2;
+  background: #f0f7ff;
+  font-weight: 600;
+}
+
+/* Responsive styles for toolbar */
+@media (max-width: 700px) {
+  .toolbar {
+    padding: 8px 4px 0 4px;
+  }
+  .toolbar-row {
+    gap: 6px;
+  }
+  .toolbar-btn {
+    font-size: 0.95rem;
+    padding: 2px 4px;
+  }
 }
 
 .editor-container {
-  flex: 1;
+  min-height: 120px;
   padding: 16px;
-  overflow-y: auto;
+  background: #fafbfc;
+  border-radius: 0 0 6px 6px;
 }
 
-.editor-container .DraftEditor-root {
-  height: 100%;
-}
-
-.editor-container .DraftEditor-editorContainer {
-  height: 100%;
-}
-
-.editor-container .public-DraftEditor-content {
-  min-height: 100px;
-  padding: 8px;
+.public-DraftEditor-content {
+  min-height: 80px;
+  font-size: 1.1rem;
 }

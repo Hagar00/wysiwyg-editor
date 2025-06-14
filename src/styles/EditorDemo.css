@@ -7,8 +7,8 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-top: 56px; /* Height of navbar */
-  padding-bottom: 56px; /* Height of footer */
+  padding-top: 56px;
+  padding-bottom: 56px;
 }
 
 .editor-content {
@@ -17,13 +17,12 @@ body {
   margin-bottom: 0;
 }
 
-.editor-content h1 {
-  text-align: center;
-  color: #222;
-  margin-bottom: 2.5rem;
-  font-size: 2.8rem;
-  font-weight: 900;
-  letter-spacing: 1px;
+.editor-content h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1976d2;
+  letter-spacing: 0.5px;
+  text-shadow: none;
 }
 
 .demo-section {
@@ -33,9 +32,14 @@ body {
   border-radius: 16px;
   background-color: #fff;
   max-width: 700px;
+  width: 100%;
+  min-width: 0;
   margin-left: auto;
   margin-right: auto;
   box-shadow: 0 2px 16px rgba(25, 118, 210, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .demo-section h2 {
@@ -53,6 +57,7 @@ body {
 
 .demo-editor {
   margin: 1.5rem 0;
+  width: 100%;
 }
 
 .save-button {
@@ -78,4 +83,88 @@ body {
 .save-button:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
+}
+
+.cancel-button {
+  background-color: #e0e0e0;
+  color: #333;
+  padding: 14px 32px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.15rem;
+  font-weight: 700;
+  transition:
+    background-color 0.2s,
+    box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+}
+
+.cancel-button:hover {
+  background-color: #bdbdbd;
+}
+
+.cancel-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Responsive styles for mobile */
+@media (max-width: 800px) {
+  .demo-section {
+    padding: 1rem 0.5rem;
+    max-width: 98vw;
+  }
+  .demo-section h2 {
+    font-size: 1.3rem;
+  }
+  .save-button,
+  .cancel-button {
+    padding: 10px 0;
+    font-size: 1rem;
+  }
+}
+
+.main-heading {
+  text-align: center;
+  color: #1976d2;
+  margin-bottom: 2.5rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.button-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 600px) {
+  .main-heading {
+    font-size: 1.1rem;
+  }
+  .button-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Card fade-in and hover effect */
+.card-fade {
+  animation: fadeInCard 0.7s;
+  transition: box-shadow 0.2s;
+}
+.card-fade:hover {
+  box-shadow: 0 6px 24px rgba(25, 118, 210, 0.13);
+}
+@keyframes fadeInCard {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

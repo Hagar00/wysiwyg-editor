@@ -5,6 +5,8 @@ import { editorService } from "../services/editorService";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import "../styles/EditorDemo.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const EditorDemo: React.FC = () => {
   const [controlledEditorState, setControlledEditorState] =
@@ -12,6 +14,10 @@ const EditorDemo: React.FC = () => {
   const [uncontrolledEditorState, setUncontrolledEditorState] =
     useState<EditorState>(editorService.createEmptyEditorState());
   const [isControlledMode, setIsControlledMode] = useState(true);
+
+  // Loading states for each button
+  const [isSavingControlled, setIsSavingControlled] = useState(false);
+  const [isSavingUncontrolled, setIsSavingUncontrolled] = useState(false);
 
   const handleControlledChange = useCallback((newEditorState: EditorState) => {
     setControlledEditorState(newEditorState);
@@ -25,20 +31,34 @@ const EditorDemo: React.FC = () => {
   );
 
   const handleSaveContent = useCallback(async () => {
+    setIsSavingControlled(true);
     const content = editorService.getEditorContent(controlledEditorState);
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Saved content:", content);
-    alert("Content saved successfully!");
+    toast.success(`Saved content: ${content}`, {
+      position: "top-right",
+      autoClose: 3000,
+      onClose: () => setIsSavingControlled(false),
+    });
   }, [controlledEditorState]);
 
   const handleSaveUncontrolledContent = useCallback(async () => {
+    setIsSavingUncontrolled(true);
     const content = editorService.getEditorContent(uncontrolledEditorState);
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Saved content:", content);
-    alert("Content saved successfully!");
+    toast.success(`Saved content: ${content}`, {
+      position: "top-right",
+      autoClose: 3000,
+      onClose: () => setIsSavingUncontrolled(false),
+    });
   }, [uncontrolledEditorState]);
+
+  const handleCancelControlled = useCallback(() => {
+    setControlledEditorState(editorService.createEmptyEditorState());
+  }, []);
+
+  const handleCancelUncontrolled = useCallback(() => {
+    setUncontrolledEditorState(editorService.createEmptyEditorState());
+  }, []);
 
   const handleModeChange = useCallback((isControlled: boolean) => {
     setIsControlledMode(isControlled);
@@ -50,12 +70,13 @@ const EditorDemo: React.FC = () => {
         isControlledMode={isControlledMode}
         onModeChange={handleModeChange}
       />
+      <ToastContainer />
 
       <main className="editor-content">
-        <h1>WYSIWYG Editor Demo</h1>
+        <h1 className="main-heading">WYSIWYG Editor Demo</h1>
 
         {isControlledMode ? (
-          <section className="demo-section">
+          <section className="demo-section card-fade">
             <h2>Controlled Mode</h2>
             <p>This editor's state is managed by the parent component.</p>
             <WysiwygEditor
@@ -63,25 +84,49 @@ const EditorDemo: React.FC = () => {
               onChange={handleControlledChange}
               className="demo-editor"
             />
-            <button onClick={handleSaveContent} className="save-button">
-              Save Content
-            </button>
+            <div className="button-row">
+              <button
+                onClick={handleSaveContent}
+                className="save-button"
+                disabled={isSavingControlled}
+              >
+                {isSavingControlled ? "Saving..." : "Save Content"}
+              </button>
+              <button
+                onClick={handleCancelControlled}
+                className="cancel-button"
+                disabled={isSavingControlled}
+              >
+                Cancel
+              </button>
+            </div>
           </section>
         ) : (
-          <section className="demo-section">
+          <section className="demo-section card-fade">
             <h2>Uncontrolled Mode</h2>
             <p>This editor manages its own state internally.</p>
             <WysiwygEditor
               className="demo-editor"
               placeholder="Type something here..."
               onChange={handleUncontrolledChange}
+              value={uncontrolledEditorState}
             />
-            <button
-              onClick={handleSaveUncontrolledContent}
-              className="save-button"
-            >
-              Save Content
-            </button>
+            <div className="button-row">
+              <button
+                onClick={handleSaveUncontrolledContent}
+                className="save-button"
+                disabled={isSavingUncontrolled}
+              >
+                {isSavingUncontrolled ? "Saving..." : "Save Content"}
+              </button>
+              <button
+                onClick={handleCancelUncontrolled}
+                className="cancel-button"
+                disabled={isSavingUncontrolled}
+              >
+                Cancel
+              </button>
+            </div>
           </section>
         )}
       </main>
